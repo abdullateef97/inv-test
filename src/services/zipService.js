@@ -7,7 +7,6 @@ exports.getWeatherByZipCode = async zip_code => {
     let response = await getResource(getWeatherByZipCodeEndpoint(zip_code))
     return response.status === 200 ? response.data : () => {throw('Please Provide A Valid Postal Code')}
   }catch(error){
-    console.log({error})
     throw(error.message)
   }
 }

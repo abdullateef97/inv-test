@@ -5,7 +5,6 @@ const geo_tz = require('geo-tz')
 
 exports.getTimeZoneFromCityName = city_name => {
   const tz_response = city_tz.lookupViaCity(city_name)
-  console.log({tz_response})
   return tz_response && tz_response.length > 0 ? tz_response[0].timezone : null
 }
 

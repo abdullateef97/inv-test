@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const {successResponse, failureResponse, logResponseToConsole} = require('./helpers/responseHelper')
-const {getCurrentTimeFromTimezone, getTimeZoneFromCityName} = require('./helpers/timezoneHelper')
+const {getCurrentTimeFromTimezone, getTimeZoneFromCityName, getTimezoneFromLatLong} = require('./helpers/timezoneHelper')
 const {getWeatherByCityName} = require('./services/cityService')
 const {getWeatherByZipCode, isEntryAZipCode, parseZipCode} = require('./services/zipService')
 const {log_instruction} = require('./helpers/instructions')
@@ -30,7 +30,6 @@ const _getWeatherAndTimezoneByCityName = async city_name => {
 
   try{
     let open_weather_map_response = await getWeatherByCityName(city_name)
-    console.log({open_weather_map_response})
     if(!open_weather_map_response || open_weather_map_response.cod !== 200) {
       response.error_msg = `Unable to retrieve weather info for City ${city_name}`
       return failureResponse(response)
@@ -55,11 +54,9 @@ const _getWeatherAndTimezoneFromZipCode = async zip_code => {
       return failureResponse(response)
     }
 
-    console.log({open_weather_map_response})
-    let city_name = open_weather_map_response.name
-    console.log({city_name})
-    response.city = city_name
-    let timezone = getTimeZoneFromCityName(city_name)
+    let {name, coord} = open_weather_map_response
+    response.city = name
+    let timezone = getTimezoneFromLatLong(coord.lat, coord.lon)
     let time = getCurrentTimeFromTimezone(timezone)
     response = {...response, timezone: timezone || 'Unable to get Timezone', time: time || 'Unable to Get Cities Current Time'}
 
@@ -80,11 +77,9 @@ _genPromiseArray = query_array => {
 
 const getWeatherAndTimezone = async query_array => {
   let response = await Promise.all(_genPromiseArray(query_array))
-  console.log({response})
   console.log('Here comes Your Response 🚴 🚴 🚴')
   logResponseToConsole(response)
-  console.log('\n \n \n')
-  log_instruction()
+  console.log('\n \n')
 }
 
 exports.app = query_array => getWeatherAndTimezone(query_array)

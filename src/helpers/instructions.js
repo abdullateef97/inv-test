@@ -1,4 +1,4 @@
-exports.log_instruction = () => console.log(`Input the city names and zip/postal codes e.g. Paris, New York, 78009.us, 75004.fr
+exports.log_instruction = () => console.log(`Input the city names and zip/postal codes e.g. Paris, New York, 75004.fr
 N.B Separate Multiple Entries with a comma ","
 N.B Postal Code not in this format 78009.{country_code} would default to the US
 	
