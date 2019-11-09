@@ -5,6 +5,7 @@ const {successResponse, failureResponse, logResponseToConsole} = require('./help
 const {getCurrentTimeFromTimezone, getTimeZoneFromCityName} = require('./helpers/timezoneHelper')
 const {getWeatherByCityName} = require('./services/cityService')
 const {getWeatherByZipCode, isEntryAZipCode, parseZipCode} = require('./services/zipService')
+const {log_instruction} = require('./helpers/instructions')
 
 const _parseWeatherSuccessResponse = (response, data) => {
   return {
@@ -54,13 +55,15 @@ const _getWeatherAndTimezoneFromZipCode = async zip_code => {
       return failureResponse(response)
     }
 
-    let city_name = open_weather_map_response.city
+    console.log({open_weather_map_response})
+    let city_name = open_weather_map_response.name
+    console.log({city_name})
     response.city = city_name
     let timezone = getTimeZoneFromCityName(city_name)
     let time = getCurrentTimeFromTimezone(timezone)
     response = {...response, timezone: timezone || 'Unable to get Timezone', time: time || 'Unable to Get Cities Current Time'}
 
-    return successResponse(open_weather_map_response)
+    return successResponse(_parseWeatherSuccessResponse(response, open_weather_map_response))
 
   }catch(error){
     response.error_msg = error
@@ -79,6 +82,8 @@ const getWeatherAndTimezone = async query_array => {
   console.log({response})
   console.log('Here comes Your Response 🚴 🚴 🚴')
   logResponseToConsole(response)
+  console.log('\n \n \n')
+  log_instruction()
 }
 
 exports.app = query_array => getWeatherAndTimezone(query_array)
