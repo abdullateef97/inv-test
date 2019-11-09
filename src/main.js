@@ -73,6 +73,7 @@ const _getWeatherAndTimezoneFromZipCode = async zip_code => {
 
 _genPromiseArray = query_array => {
   return query_array.map(query => {
+    query = query.trim()
     return isEntryAZipCode(query) ? _getWeatherAndTimezoneFromZipCode(query) : _getWeatherAndTimezoneByCityName(query)
   })
 }

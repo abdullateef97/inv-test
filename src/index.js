@@ -26,7 +26,7 @@ const main = () => {
         return main()
       default:
         console.log('Processing Your Request  ✋ ✋ ✋ \n \n');
-        let cleaned_entries = entries.replace(/[^a-zA-Z0-9,.]/g, '').replace(/\n$/, '').split(',')
+        let cleaned_entries = entries.replace(/[^a-zA-Z0-9,. ]/g, '').replace(/\n$/, '').split(',')
         console.log({cleaned_entries}, cleaned_entries.length, !cleaned_entries[0], cleaned_entries[0].length)
         return cleaned_entries.length <= 0 ? main() : 
           cleaned_entries.length === 1 && cleaned_entries[0].length <= 0 ? log_instruction() :
