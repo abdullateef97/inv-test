@@ -1,12 +1,12 @@
 
-const respond = (data) => {
+const _respond = (data) => {
   return {
       "City or Zip Code Supplied": data.query,
       "Request Failed": data.failed || false,
       "Error Message": data.error_msg || '',
       "City": data.city || '',
-      "Current Time": data.time || '',
-      "TimeZone": data.timezone || '',
+      "TimeZone": data.timezone || 'Error Getting Timezone',
+      "Current Time": data.time || 'Error Getting Cities Current Time',
       "Weather": data.weather || '',
       "Weather Description": data.weather_desc || '',
       "Temperature (K)": data.temp || '',
@@ -17,8 +17,8 @@ const respond = (data) => {
   }
 }
 
-exports.successResponse = data => respond({...data, failed: false, error_msg: ''})
-exports.failureResponse = data => data.error_msg ? respond({...data, failed: true}) :
-                                        respond({...data, failed: true, error_msg: 'Unknown Error'})
+exports.successResponse = data => _respond({...data, failed: false, error_msg: ''})
+exports.failureResponse = data => data.error_msg ? _respond({...data, failed: true}) :
+                                        _respond({...data, failed: true, error_msg: 'Unknown Error'})
 
 exports.logResponseToConsole = data => console.table(data)
