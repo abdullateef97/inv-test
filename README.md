@@ -13,6 +13,9 @@ Here is my submission for the invisible tech general js test
     
 ##  Run 
 
-    npm start
+`npm start`
+
+## Test
+`npm test`
 
   
