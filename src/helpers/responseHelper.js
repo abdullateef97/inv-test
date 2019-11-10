@@ -23,6 +23,7 @@ exports.failureResponse = data => data.error_msg ? _respond({...data, failed: tr
 
 // exports.logResponseToConsole = data => console.table(data)
 exports.logResponseToConsole = data => {
+  console.log(data)
   let final_response_object = {}
   let keys = Object.keys(data[0])
 
@@ -30,5 +31,6 @@ exports.logResponseToConsole = data => {
     let array_of_values = data.map(obj => obj[key])
     final_response_object[key] = array_of_values;
   })
+  console.log('Here comes Your Response 🚴 🚴 🚴')
   console.table(final_response_object)
 }

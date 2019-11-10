@@ -75,11 +75,13 @@ _genPromiseArray = query_array => {
   })
 }
 
-const getWeatherAndTimezone = async query_array => {
-  let response = await Promise.all(_genPromiseArray(query_array))
-  console.log('Here comes Your Response 🚴 🚴 🚴')
-  logResponseToConsole(response)
+const getWeatherAndTimezone = async query_array => await Promise.all(_genPromiseArray(query_array))
+
+app = async query_array => {
+  logResponseToConsole(await getWeatherAndTimezone(query_array))
   console.log('\n \n')
 }
 
-exports.app = query_array => getWeatherAndTimezone(query_array)
+module.exports = {
+  app, getWeatherAndTimezone
+}
